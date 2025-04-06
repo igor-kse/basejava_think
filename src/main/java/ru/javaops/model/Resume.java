@@ -1,4 +1,4 @@
-package model;
+package ru.javaops.model;
 
 import java.util.Objects;
 

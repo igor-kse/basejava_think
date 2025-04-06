@@ -1,20 +1,8 @@
 package ru.javaops.storage;
 
-import model.Resume;
+import ru.javaops.model.Resume;
 
-import java.util.Arrays;
-
-public class ArrayStorage {
-    protected static final int STORAGE_LIMIT = 10000;
-
-    protected Resume[] storage = new Resume[STORAGE_LIMIT];
-    protected int size = 0;
-
-    public void clear() {
-        Arrays.fill(storage, 0, size, null);
-        size = 0;
-        System.out.println("The storage has been cleared. Size is: " + size);
-    }
+public class ArrayStorage extends AbstractArrayStorage implements Storage {
 
     public void save(Resume resume) {
         int searchKey = getSearchKey(resume.getUuid());
@@ -58,16 +46,7 @@ public class ArrayStorage {
         storage[searchKey] = resume;
     }
 
-    public Resume[] getAll() {
-        System.out.println("Copying all resumes");
-        return Arrays.copyOf(storage, size);
-    }
-
-    public int size() {
-        return size;
-    }
-
-    private int getSearchKey(String uuid) {
+    protected int getSearchKey(String uuid) {
         for (int i = 0; i < size; i++) {
             if (uuid.equals(storage[i].getUuid())) {
                 return i;

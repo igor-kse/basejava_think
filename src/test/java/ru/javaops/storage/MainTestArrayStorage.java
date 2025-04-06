@@ -1,6 +1,6 @@
 package ru.javaops.storage;
 
-import model.Resume;
+import ru.javaops.model.Resume;
 
 public class MainTestArrayStorage {
 
