@@ -1,5 +1,8 @@
 package ru.javaops.storage;
 
+import ru.javaops.exceptions.ExistingResumeStorageException;
+import ru.javaops.exceptions.NotExistingResumeStorageException;
+import ru.javaops.exceptions.StorageException;
 import ru.javaops.model.Resume;
 
 import java.util.Arrays;
@@ -14,9 +17,9 @@ public abstract class AbstractArrayStorage implements Storage {
     public final void save(Resume resume) {
         int searchKey = getSearchKey(resume.getUuid());
         if (size >= STORAGE_LIMIT) {
-            System.out.println("Storage overflow");
+            throw new StorageException("Storage overflow", resume.getUuid());
         } else if (searchKey >= 0) {
-            System.out.println("A resume with uuid " + resume.getUuid() + " already exists");
+            throw new ExistingResumeStorageException(resume.getUuid());
         } else {
             insertResume(resume, searchKey);
             size++;
@@ -26,8 +29,7 @@ public abstract class AbstractArrayStorage implements Storage {
     public final Resume get(String uuid) {
         int searchKey = getSearchKey(uuid);
         if (searchKey < 0) {
-            System.out.println("Resume with uuid " + uuid + " not found");
-            return null;
+            throw new NotExistingResumeStorageException(uuid);
         }
         return storage[searchKey];
     }
@@ -35,8 +37,7 @@ public abstract class AbstractArrayStorage implements Storage {
     public final void delete(String uuid) {
         int searchKey = getSearchKey(uuid);
         if (searchKey < 0) {
-            System.out.println("Resume with uuid " + uuid + " not found");
-            return;
+            throw new NotExistingResumeStorageException(uuid);
         }
         squashPosition(searchKey);
         size--;
@@ -46,8 +47,7 @@ public abstract class AbstractArrayStorage implements Storage {
     public final void update(Resume resume) {
         int searchKey = getSearchKey(resume.getUuid());
         if (searchKey < 0) {
-            System.out.println("Resume with uuid " + resume.getUuid() + " not found");
-            return;
+            throw new NotExistingResumeStorageException(resume.getUuid());
         }
         System.out.println("Replacing resume with uuid " + resume.getUuid());
         storage[searchKey] = resume;
