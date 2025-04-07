@@ -2,50 +2,9 @@ package ru.javaops.storage;
 
 import ru.javaops.model.Resume;
 
-public class ArrayStorage extends AbstractArrayStorage implements Storage {
+public class ArrayStorage extends AbstractArrayStorage {
 
-    public void save(Resume resume) {
-        int searchKey = getSearchKey(resume.getUuid());
-        if (size >= STORAGE_LIMIT) {
-            System.out.println("Storage overflow");
-        } else if (searchKey != -1) {
-            System.out.println("A resume with uuid " + resume.getUuid() + " already exists");
-        } else {
-            storage[size] = resume;
-            size++;
-        }
-    }
-
-    public Resume get(String uuid) {
-        int searchKey = getSearchKey(uuid);
-        if (searchKey == -1) {
-            System.out.println("Resume with uuid " + uuid + " not found");
-            return null;
-        }
-        return storage[searchKey];
-    }
-
-    public void delete(String uuid) {
-        int searchKey = getSearchKey(uuid);
-        if (searchKey == -1) {
-            System.out.println("Resume with uuid " + uuid + " not found");
-            return;
-        }
-        size--;
-        storage[searchKey] = storage[size];
-        storage[size] = null;
-    }
-
-    public void update(Resume resume) {
-        int searchKey = getSearchKey(resume.getUuid());
-        if (searchKey == -1) {
-            System.out.println("Resume with uuid " + resume.getUuid() + " not found");
-            return;
-        }
-        System.out.println("Replacing resume with uuid " + resume.getUuid());
-        storage[searchKey] = resume;
-    }
-
+    @Override
     protected int getSearchKey(String uuid) {
         for (int i = 0; i < size; i++) {
             if (uuid.equals(storage[i].getUuid())) {
@@ -53,5 +12,19 @@ public class ArrayStorage extends AbstractArrayStorage implements Storage {
             }
         }
         return -1;
+    }
+
+    @Override
+    protected void squashPosition(int index) {
+        // handling early decrement of size in the parent class as it might be
+        Resume last = storage[size] != null
+                ? storage[size]
+                : storage[size - 1];
+        storage[index] = last;
+    }
+
+    @Override
+    protected void insertResume(Resume resume, int index) {
+        storage[size] = resume;
     }
 }
