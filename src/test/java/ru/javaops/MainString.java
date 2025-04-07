@@ -1,4 +1,4 @@
-package ru.javaops.storage;
+package ru.javaops;
 
 public class MainString {
     public static void main(String[] args) {

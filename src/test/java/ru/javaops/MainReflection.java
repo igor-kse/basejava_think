@@ -1,4 +1,4 @@
-package ru.javaops.storage;
+package ru.javaops;
 
 import ru.javaops.model.Resume;
 

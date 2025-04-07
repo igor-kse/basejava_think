@@ -1,6 +1,8 @@
-package ru.javaops.storage;
+package ru.javaops;
 
 import ru.javaops.model.Resume;
+import ru.javaops.storage.SortedArrayStorage;
+import ru.javaops.storage.Storage;
 
 import java.io.BufferedReader;
 import java.io.IOException;
