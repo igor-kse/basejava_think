@@ -16,11 +16,7 @@ public class ArrayStorage extends AbstractArrayStorage {
 
     @Override
     protected void squashPosition(int index) {
-        // handling early decrement of size in the parent class as it might be
-        Resume last = storage[size] != null
-                ? storage[size]
-                : storage[size - 1];
-        storage[index] = last;
+        storage[index] = storage[size - 1];
     }
 
     @Override
