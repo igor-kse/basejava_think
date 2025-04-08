@@ -7,9 +7,12 @@ import org.junit.jupiter.api.function.Executable;
 import ru.javaops.exceptions.ExistingResumeStorageException;
 import ru.javaops.exceptions.NotExistingResumeStorageException;
 import ru.javaops.model.Resume;
+import ru.javaops.model.ResumeTestData;
 
 import java.util.Collections;
 import java.util.List;
+
+import static ru.javaops.model.ResumeTestData.createFilledResume;
 
 public abstract class AbstractStorageTest {
 
@@ -20,10 +23,10 @@ public abstract class AbstractStorageTest {
     protected static final String UUID_3 = "uuid3";
     protected static final String UUID_NOT_EXISTING = "uuid_not_existing";
 
-    protected static final Resume RESUME_1 = new Resume(UUID_1, "name1");
-    protected static final Resume RESUME_2 = new Resume(UUID_2, "name2");
-    protected static final Resume RESUME_3 = new Resume(UUID_3, "name3");
-    protected static final Resume RESUME_NOT_EXISTING = new Resume(UUID_NOT_EXISTING);
+    protected static final Resume RESUME_1 = createFilledResume(UUID_1, "name1");
+    protected static final Resume RESUME_2 = createFilledResume(UUID_2, "name2");
+    protected static final Resume RESUME_3 =  createFilledResume(UUID_3, "name3");
+    protected static final Resume RESUME_NOT_EXISTING = createFilledResume(UUID_NOT_EXISTING, "name4");
 
     protected static final int INITIAL_SIZE = 3;
 

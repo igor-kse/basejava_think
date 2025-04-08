@@ -1,9 +1,6 @@
 package ru.javaops.model;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 public class Resume {
 
@@ -11,9 +8,9 @@ public class Resume {
 
     private String fullName;
 
-    private Map<ContactType, String> contacts = new HashMap<>();
+    private Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
 
-    private Map<SectionType, AbstractSection> sections = new HashMap<>();
+    private Map<SectionType, AbstractSection> sections = new EnumMap<>(SectionType.class);
 
     public Resume(String fullName) {
         this.uuid = UUID.randomUUID().toString();
