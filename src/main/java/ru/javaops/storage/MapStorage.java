@@ -2,7 +2,9 @@ package ru.javaops.storage;
 
 import ru.javaops.model.Resume;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MapStorage extends AbstractStorage<String> {
@@ -25,8 +27,8 @@ public class MapStorage extends AbstractStorage<String> {
     }
 
     @Override
-    protected Resume[] doGetAll() {
-        return storage.values().toArray(new Resume[0]);
+    protected List<Resume> doGetAll() {
+        return new ArrayList<>(storage.values());
     }
 
     @Override

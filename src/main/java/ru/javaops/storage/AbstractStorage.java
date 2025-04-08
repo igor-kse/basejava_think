@@ -4,7 +4,14 @@ import ru.javaops.exceptions.ExistingResumeStorageException;
 import ru.javaops.exceptions.NotExistingResumeStorageException;
 import ru.javaops.model.Resume;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 public abstract class AbstractStorage<SK> implements Storage {
+
+    protected static final Comparator<Resume> RESUME_COMPARATOR =
+            Comparator.comparing(Resume::getFullName).thenComparing(Resume::getUuid);
 
     public final void save(Resume resume) {
         SK searchKey = getNotExistingSearchKey(resume.getUuid());
@@ -26,8 +33,10 @@ public abstract class AbstractStorage<SK> implements Storage {
         doUpdate(resume, searchKey);
     }
 
-    public Resume[] getAll() {
-        return doGetAll();
+    public List<Resume> getAllSorted() {
+        List<Resume> resumes = doGetAll();
+        resumes.sort(RESUME_COMPARATOR);
+        return Collections.unmodifiableList(resumes);
     }
 
     public void clear() {
@@ -60,7 +69,7 @@ public abstract class AbstractStorage<SK> implements Storage {
 
     protected abstract int doSize();
 
-    protected abstract Resume[] doGetAll();
+    protected abstract List<Resume> doGetAll();
 
     protected abstract Resume doGet(SK searchKey);
 

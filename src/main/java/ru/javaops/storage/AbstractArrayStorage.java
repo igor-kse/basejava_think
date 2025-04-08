@@ -4,6 +4,10 @@ import ru.javaops.exceptions.StorageException;
 import ru.javaops.model.Resume;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
 
@@ -35,9 +39,9 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     }
 
     @Override
-    protected Resume[] doGetAll() {
+    protected List<Resume> doGetAll() {
         System.out.println("Copying all resumes");
-        return Arrays.copyOf(storage, size);
+        return Arrays.stream(storage, 0, size).collect(Collectors.toList());
     }
 
     @Override

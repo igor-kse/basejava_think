@@ -1,13 +1,22 @@
 package ru.javaops.model;
 
 import java.util.Objects;
+import java.util.UUID;
 
 public class Resume {
 
     private String uuid;
 
-    public Resume(String uuid) {
+    private String fullName;
+
+    public Resume(String fullName) {
+        this.uuid = UUID.randomUUID().toString();
+        this.fullName = fullName;
+    }
+
+    public Resume(String uuid, String fullName) {
         this.uuid = uuid;
+        this.fullName = fullName;
     }
 
     public String getUuid() {
@@ -16,6 +25,14 @@ public class Resume {
 
     public void setUuid(String uuid) {
         this.uuid = uuid;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     @Override

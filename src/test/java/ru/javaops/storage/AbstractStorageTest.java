@@ -8,8 +8,8 @@ import ru.javaops.exceptions.ExistingResumeStorageException;
 import ru.javaops.exceptions.NotExistingResumeStorageException;
 import ru.javaops.model.Resume;
 
-import java.util.Arrays;
-import java.util.Comparator;
+import java.util.Collections;
+import java.util.List;
 
 public abstract class AbstractStorageTest {
 
@@ -20,9 +20,9 @@ public abstract class AbstractStorageTest {
     protected static final String UUID_3 = "uuid3";
     protected static final String UUID_NOT_EXISTING = "uuid_not_existing";
 
-    protected static final Resume RESUME_1 = new Resume(UUID_1);
-    protected static final Resume RESUME_2 = new Resume(UUID_2);
-    protected static final Resume RESUME_3 = new Resume(UUID_3);
+    protected static final Resume RESUME_1 = new Resume(UUID_1, "name1");
+    protected static final Resume RESUME_2 = new Resume(UUID_2, "name2");
+    protected static final Resume RESUME_3 = new Resume(UUID_3, "name3");
     protected static final Resume RESUME_NOT_EXISTING = new Resume(UUID_NOT_EXISTING);
 
     protected static final int INITIAL_SIZE = 3;
@@ -35,9 +35,9 @@ public abstract class AbstractStorageTest {
     @BeforeEach
     public void setUp() throws Exception {
         storage.clear();
-        storage.save(new Resume(UUID_1));
-        storage.save(new Resume(UUID_2));
-        storage.save(new Resume(UUID_3));
+        storage.save(RESUME_1);
+        storage.save(RESUME_2);
+        storage.save(RESUME_3);
     }
 
     @Test
@@ -50,7 +50,7 @@ public abstract class AbstractStorageTest {
         storage.clear();
 
         assertSize(0);
-        Assertions.assertArrayEquals(new Resume[0], storage.getAll());
+        Assertions.assertIterableEquals(Collections.emptyList(), storage.getAllSorted());
     }
 
     @Test
@@ -64,10 +64,9 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void getAll() throws Exception {
-        Resume[] expected = {RESUME_1, RESUME_2, RESUME_3};
-        Resume[] actual = storage.getAll();
-        Arrays.sort(actual, Comparator.comparing(Resume::getUuid));
-        Assertions.assertArrayEquals(expected, actual);
+        List<Resume> expected = List.of(RESUME_1, RESUME_2, RESUME_3);
+        List<Resume> actual = storage.getAllSorted();
+        Assertions.assertIterableEquals(expected, actual);
     }
 
     @Test
@@ -105,7 +104,7 @@ public abstract class AbstractStorageTest {
     }
 
     protected void assertUpdate(String uuid) {
-        Resume updated = new Resume(uuid);
+        Resume updated = new Resume(uuid, "");
         int size = storage.size();
 
         storage.update(updated);
