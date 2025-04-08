@@ -8,6 +8,9 @@ import ru.javaops.exceptions.ExistingResumeStorageException;
 import ru.javaops.exceptions.NotExistingResumeStorageException;
 import ru.javaops.model.Resume;
 
+import java.util.Arrays;
+import java.util.Comparator;
+
 public abstract class AbstractStorageTest {
 
     protected final Storage storage;
@@ -63,6 +66,7 @@ public abstract class AbstractStorageTest {
     public void getAll() throws Exception {
         Resume[] expected = {RESUME_1, RESUME_2, RESUME_3};
         Resume[] actual = storage.getAll();
+        Arrays.sort(actual, Comparator.comparing(Resume::getUuid));
         Assertions.assertArrayEquals(expected, actual);
     }
 
