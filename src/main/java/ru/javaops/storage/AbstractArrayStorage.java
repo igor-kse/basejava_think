@@ -1,5 +1,7 @@
 package ru.javaops.storage;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.javaops.exceptions.StorageException;
 import ru.javaops.model.Resume;
 
@@ -13,6 +15,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
 
     protected static final int STORAGE_LIMIT = 10000;
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractArrayStorage.class);
+
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
 
@@ -25,7 +29,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     protected void doClear() {
         Arrays.fill(storage, 0, size, null);
         size = 0;
-        System.out.println("The storage has been cleared. Size is: " + size);
+        LOGGER.debug("The storage has been cleared. Size is: {}", size);
     }
 
     @Override
@@ -40,7 +44,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
 
     @Override
     protected List<Resume> doGetAll() {
-        System.out.println("Copying all resumes");
+        LOGGER.debug("Copying all resumes");
         return Arrays.stream(storage, 0, size).collect(Collectors.toList());
     }
 
@@ -63,7 +67,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
 
     @Override
     protected void doUpdate(Resume resume, Integer searchKey) {
-        System.out.println("Replacing resume with uuid " + resume.getUuid());
+        LOGGER.debug("Replacing resume with uuid {}", resume.getUuid());
         storage[searchKey] = resume;
     }
 
