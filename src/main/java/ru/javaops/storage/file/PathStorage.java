@@ -4,6 +4,7 @@ import ru.javaops.exceptions.StorageException;
 import ru.javaops.model.Resume;
 import ru.javaops.storage.AbstractStorage;
 import ru.javaops.storage.file.executors.PathExecutor;
+import ru.javaops.storage.file.serializers.ISerializer;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -13,16 +14,15 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public abstract class AbstractPathStorage extends AbstractStorage<Path> {
+public class PathStorage extends AbstractStorage<Path> {
 
     private final Path directory;
     private final PathExecutor executor;
+    private final ISerializer serializer;
 
-    public AbstractPathStorage(Path directory) {
-        this.directory = directory;
-        this.executor = new PathExecutor();
-
+    public PathStorage(Path directory, ISerializer serializer) {
         Objects.requireNonNull(directory);
+        Objects.requireNonNull(serializer);
 
         if (!Files.exists(directory)) {
             try {
@@ -35,6 +35,10 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
         if (!Files.isDirectory(directory) || !Files.isReadable(directory) || !Files.isWritable(directory)) {
             throw new IllegalArgumentException("Is not directory or not readable/writable " + directory);
         }
+
+        this.directory = directory;
+        this.serializer = serializer;
+        this.executor = new PathExecutor();
     }
 
     @Override
@@ -68,7 +72,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     protected Resume doGet(Path searchKey) {
         return executor.read("Cannot read resume", () -> {
             var is = new BufferedInputStream(Files.newInputStream(searchKey));
-            return doRead(is);
+            return serializer.doRead(is);
         });
     }
 
@@ -81,7 +85,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     protected void doSave(Resume resume, Path searchKey) {
         executor.execute("Cannot save resume", () -> {
             var os = Files.newOutputStream(searchKey, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
-            doWrite(resume, new BufferedOutputStream(os));
+            serializer.doWrite(resume, new BufferedOutputStream(os));
         });
     }
 
@@ -89,7 +93,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     protected void doUpdate(Resume resume, Path searchKey) {
         executor.execute("Cannot write file with updated resume", () -> {
             var os = Files.newOutputStream(searchKey, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
-            doWrite(resume, new BufferedOutputStream(os));
+            serializer.doWrite(resume, new BufferedOutputStream(os));
         });
     }
 
@@ -97,8 +101,4 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     protected Path getSearchKey(String uuid) {
         return directory.resolve(uuid);
     }
-
-    protected abstract Resume doRead(InputStream inputStream) throws IOException;
-
-    protected abstract void doWrite(Resume resume, OutputStream outputStream) throws IOException;
 }

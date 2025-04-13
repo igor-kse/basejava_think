@@ -1,10 +1,30 @@
 package ru.javaops.storage.file;
 
-public class ObjectStreamFileStorageTest extends AbstractFileStorageTest {
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
+import ru.javaops.model.Resume;
+import ru.javaops.storage.AbstractStorageTest;
+import ru.javaops.storage.file.serializers.ObjectStreamSerializer;
 
-    private static final String STORAGE_DIRECTORY = ".\\objectStreamStorage";
+import java.io.File;
+
+public class ObjectStreamFileStorageTest extends AbstractStorageTest {
+
+    private static final File STORAGE_DIRECTORY = new File(".\\objectStreamFileStorage");
 
     public ObjectStreamFileStorageTest() {
-        super(new ObjectStreamFileStorage(STORAGE_DIRECTORY), STORAGE_DIRECTORY);
+        super(new FileStorage(STORAGE_DIRECTORY, new ObjectStreamSerializer()));
+    }
+
+    @AfterAll
+    protected static void cleanUp() {
+        if (STORAGE_DIRECTORY.exists() && !STORAGE_DIRECTORY.delete()) {
+            throw new RuntimeException("Could not delete " + STORAGE_DIRECTORY.getAbsolutePath());
+        }
+    }
+
+    @Override
+    protected void doAssertUpdate(Resume updated, String uuid) {
+        Assertions.assertEquals(updated, storage.get(uuid));
     }
 }

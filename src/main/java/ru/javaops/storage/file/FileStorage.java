@@ -4,19 +4,22 @@ import ru.javaops.exceptions.StorageException;
 import ru.javaops.model.Resume;
 import ru.javaops.storage.file.executors.FileExecutor;
 import ru.javaops.storage.AbstractStorage;
+import ru.javaops.storage.file.serializers.ISerializer;
 
 import java.io.*;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public abstract class AbstractFileStorage extends AbstractStorage<File> {
+public class FileStorage extends AbstractStorage<File> {
 
     private final File directory;
     private final FileExecutor executor;
+    private final ISerializer serializer;
 
-    public AbstractFileStorage(File directory) {
+    public FileStorage(File directory, ISerializer serializer) {
         Objects.requireNonNull(directory);
+        Objects.requireNonNull(serializer);
 
         if (!directory.exists() && !directory.mkdirs()) {
             throw new StorageException("Cannot create storage directory");
@@ -28,6 +31,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
             throw new IllegalArgumentException(directory.getAbsolutePath() + " is not readable/writable");
         }
         this.directory = directory;
+        this.serializer = serializer;
         this.executor = new FileExecutor();
     }
 
@@ -58,7 +62,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     protected Resume doGet(File searchKey) {
         return executor.read("Cannot read resume", () -> {
                     var is = new BufferedInputStream(new FileInputStream(searchKey));
-                    return doRead(is);
+                    return serializer.doRead(is);
                 });
     }
 
@@ -77,14 +81,14 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
             if (!searchKey.createNewFile()) {
                 throw new StorageException("Cannot create file " + searchKey.getName());
             }
-            doWrite(resume, new BufferedOutputStream(new FileOutputStream(searchKey)));
+            serializer.doWrite(resume, new BufferedOutputStream(new FileOutputStream(searchKey)));
         });
     }
 
     @Override
     protected void doUpdate(Resume resume, File searchKey) {
         executor.execute("Cannot write file ", () -> {
-            doWrite(resume, new BufferedOutputStream(new FileOutputStream(searchKey)));
+            serializer.doWrite(resume, new BufferedOutputStream(new FileOutputStream(searchKey)));
         });
     }
 
@@ -92,8 +96,4 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     protected File getSearchKey(String uuid) {
         return new File(directory.getAbsolutePath(), uuid);
     }
-
-    protected abstract Resume doRead(InputStream inputStream) throws IOException;
-
-    protected abstract void doWrite(Resume resume, OutputStream outputStream) throws IOException;
 }
