@@ -4,7 +4,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import ru.javaops.model.Resume;
 import ru.javaops.storage.AbstractStorageTest;
-import ru.javaops.storage.file.serializers.ObjectStreamSerializer;
+import ru.javaops.util.serializers.ObjectStreamSerializer;
 
 import java.io.File;
 
@@ -13,7 +13,7 @@ public class ObjectStreamFileStorageTest extends AbstractStorageTest {
     private static final File STORAGE_DIRECTORY = new File(".\\objectStreamFileStorage");
 
     public ObjectStreamFileStorageTest() {
-        super(new FileStorage(STORAGE_DIRECTORY, new ObjectStreamSerializer()));
+        super(new FileStorage(STORAGE_DIRECTORY, new ObjectStreamSerializer<>()));
     }
 
     @AfterAll

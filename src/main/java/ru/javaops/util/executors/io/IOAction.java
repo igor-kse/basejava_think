@@ -1,4 +1,4 @@
-package ru.javaops.storage.file.executors;
+package ru.javaops.util.executors.io;
 
 import java.io.IOException;
 

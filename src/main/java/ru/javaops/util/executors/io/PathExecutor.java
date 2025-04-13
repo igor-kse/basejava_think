@@ -1,4 +1,4 @@
-package ru.javaops.storage.file.executors;
+package ru.javaops.util.executors.io;
 
 import ru.javaops.exceptions.StorageException;
 

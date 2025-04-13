@@ -3,8 +3,8 @@ package ru.javaops.storage.file;
 import ru.javaops.exceptions.StorageException;
 import ru.javaops.model.Resume;
 import ru.javaops.storage.AbstractStorage;
-import ru.javaops.storage.file.executors.PathExecutor;
-import ru.javaops.storage.file.serializers.ISerializer;
+import ru.javaops.util.executors.io.PathExecutor;
+import ru.javaops.util.serializers.ISerializer;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -18,9 +18,9 @@ public class PathStorage extends AbstractStorage<Path> {
 
     private final Path directory;
     private final PathExecutor executor;
-    private final ISerializer serializer;
+    private final ISerializer<Resume> serializer;
 
-    public PathStorage(Path directory, ISerializer serializer) {
+    public PathStorage(Path directory, ISerializer<Resume> serializer) {
         Objects.requireNonNull(directory);
         Objects.requireNonNull(serializer);
 
@@ -71,8 +71,9 @@ public class PathStorage extends AbstractStorage<Path> {
     @Override
     protected Resume doGet(Path searchKey) {
         return executor.read("Cannot read resume", () -> {
-            var is = new BufferedInputStream(Files.newInputStream(searchKey));
-            return serializer.doRead(is);
+            try(var is = new BufferedInputStream(Files.newInputStream(searchKey))) {
+                return serializer.doRead(is);
+            }
         });
     }
 
@@ -84,16 +85,18 @@ public class PathStorage extends AbstractStorage<Path> {
     @Override
     protected void doSave(Resume resume, Path searchKey) {
         executor.execute("Cannot save resume", () -> {
-            var os = Files.newOutputStream(searchKey, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
-            serializer.doWrite(resume, new BufferedOutputStream(os));
+            try(var os = Files.newOutputStream(searchKey, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)) {
+                serializer.doWrite(resume, new BufferedOutputStream(os));
+            }
         });
     }
 
     @Override
     protected void doUpdate(Resume resume, Path searchKey) {
         executor.execute("Cannot write file with updated resume", () -> {
-            var os = Files.newOutputStream(searchKey, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
-            serializer.doWrite(resume, new BufferedOutputStream(os));
+            try(var os = Files.newOutputStream(searchKey, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)) {
+                serializer.doWrite(resume, new BufferedOutputStream(os));
+            }
         });
     }
 

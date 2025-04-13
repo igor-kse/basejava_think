@@ -2,9 +2,9 @@ package ru.javaops.storage.file;
 
 import ru.javaops.exceptions.StorageException;
 import ru.javaops.model.Resume;
-import ru.javaops.storage.file.executors.FileExecutor;
 import ru.javaops.storage.AbstractStorage;
-import ru.javaops.storage.file.serializers.ISerializer;
+import ru.javaops.util.executors.io.FileExecutor;
+import ru.javaops.util.serializers.ISerializer;
 
 import java.io.*;
 import java.util.List;
@@ -15,9 +15,9 @@ public class FileStorage extends AbstractStorage<File> {
 
     private final File directory;
     private final FileExecutor executor;
-    private final ISerializer serializer;
+    private final ISerializer<Resume> serializer;
 
-    public FileStorage(File directory, ISerializer serializer) {
+    public FileStorage(File directory, ISerializer<Resume> serializer) {
         Objects.requireNonNull(directory);
         Objects.requireNonNull(serializer);
 
@@ -61,9 +61,10 @@ public class FileStorage extends AbstractStorage<File> {
     @Override
     protected Resume doGet(File searchKey) {
         return executor.read("Cannot read resume", () -> {
-                    var is = new BufferedInputStream(new FileInputStream(searchKey));
-                    return serializer.doRead(is);
-                });
+            try (var is = new BufferedInputStream(new FileInputStream(searchKey))) {
+                return serializer.doRead(is);
+            }
+        });
     }
 
     @Override
@@ -81,14 +82,18 @@ public class FileStorage extends AbstractStorage<File> {
             if (!searchKey.createNewFile()) {
                 throw new StorageException("Cannot create file " + searchKey.getName());
             }
-            serializer.doWrite(resume, new BufferedOutputStream(new FileOutputStream(searchKey)));
+            try (var os = new BufferedOutputStream(new FileOutputStream(searchKey))) {
+                serializer.doWrite(resume, os);
+            }
         });
     }
 
     @Override
     protected void doUpdate(Resume resume, File searchKey) {
-        executor.execute("Cannot write file ", () -> {
-            serializer.doWrite(resume, new BufferedOutputStream(new FileOutputStream(searchKey)));
+        executor.execute("Cannot update file ", () -> {
+            try (var os = new BufferedOutputStream(new FileOutputStream(searchKey))){
+                serializer.doWrite(resume, os);
+            }
         });
     }
 
