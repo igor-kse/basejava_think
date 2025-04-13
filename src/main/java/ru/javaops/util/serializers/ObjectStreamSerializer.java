@@ -9,8 +9,7 @@ public class ObjectStreamSerializer<T> implements ISerializer<T> {
 
     @Override
     public T doRead(InputStream is) throws IOException {
-        try {
-            ObjectInputStream objectInputStream = new ObjectInputStream(is);
+        try (ObjectInputStream objectInputStream = new ObjectInputStream(is)) {
             return (T) objectInputStream.readObject();
         } catch (ClassNotFoundException e) {
             throw new StorageException("Error while reading resume", "", e);
@@ -19,7 +18,8 @@ public class ObjectStreamSerializer<T> implements ISerializer<T> {
 
     @Override
     public void doWrite(T instance, OutputStream os) throws IOException {
-        ObjectOutputStream objectOutputStream = new ObjectOutputStream(os);
-        objectOutputStream.writeObject(instance);
+        try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(os)) {
+            objectOutputStream.writeObject(instance);
+        }
     }
 }

@@ -35,7 +35,7 @@ public abstract class AbstractStorageTest {
     }
 
     @BeforeEach
-    public void setUp() throws Exception {
+    public void setUp() {
         storage.clear();
         storage.save(RESUME_1);
         storage.save(RESUME_2);
@@ -43,12 +43,12 @@ public abstract class AbstractStorageTest {
     }
 
     @Test
-    public void size() throws Exception {
+    public void size() {
         assertSize(INITIAL_SIZE);
     }
 
     @Test
-    public void clear() throws Exception {
+    public void clear() {
         storage.clear();
 
         assertSize(0);
@@ -56,7 +56,7 @@ public abstract class AbstractStorageTest {
     }
 
     @Test
-    public void update() throws Exception {
+    public void update() {
         assertUpdate(UUID_1);
         assertUpdate(UUID_2);
         assertUpdate(UUID_3);
@@ -65,14 +65,14 @@ public abstract class AbstractStorageTest {
     }
 
     @Test
-    public void getAll() throws Exception {
+    public void getAll() {
         List<Resume> expected = List.of(RESUME_1, RESUME_2, RESUME_3);
         List<Resume> actual = storage.getAllSorted();
         Assertions.assertIterableEquals(expected, actual);
     }
 
     @Test
-    public void save() throws Exception {
+    public void save() {
         storage.save(RESUME_NOT_EXISTING);
         assertSize(INITIAL_SIZE + 1);
         assertGet(RESUME_NOT_EXISTING);
@@ -81,7 +81,7 @@ public abstract class AbstractStorageTest {
     }
 
     @Test
-    public void delete() throws Exception {
+    public void delete() {
         storage.delete(UUID_1);
 
         assertSize(INITIAL_SIZE - 1);
@@ -89,7 +89,7 @@ public abstract class AbstractStorageTest {
     }
 
     @Test
-    public void get() throws Exception {
+    public void get() {
         assertGet(RESUME_1);
         assertGet(RESUME_2);
         assertGet(RESUME_3);

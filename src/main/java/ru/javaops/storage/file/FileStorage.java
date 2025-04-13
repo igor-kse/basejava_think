@@ -7,9 +7,10 @@ import ru.javaops.util.executors.io.FileExecutor;
 import ru.javaops.util.serializers.ISerializer;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class FileStorage extends AbstractStorage<File> {
 
@@ -52,10 +53,11 @@ public class FileStorage extends AbstractStorage<File> {
 
     @Override
     protected List<Resume> doGetAll() {
-        return executor.listFiles(directory)
+        var resumes = executor.listFiles(directory)
                 .stream()
                 .map(this::doGet)
-                .collect(Collectors.toList());
+                .toList();
+        return new ArrayList<>(resumes);
     }
 
     @Override
@@ -69,11 +71,7 @@ public class FileStorage extends AbstractStorage<File> {
 
     @Override
     protected void doDelete(File searchKey) {
-        executor.execute("Cannot delete file", () -> {
-            if (!searchKey.delete()) {
-                throw new IOException("Delete failed for " + searchKey.getName());
-            }
-        });
+        executor.execute("Cannot delete file", () -> Files.delete(searchKey.toPath()));
     }
 
     @Override

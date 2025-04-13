@@ -12,6 +12,6 @@ public class MainString {
         String str1 = "abc";
         String str3 = "c";
         String str2 = ("ab" + str3).intern();
-        System.out.println(str1 == str2); // NOSONAR internal pool test
+        System.out.println(str1 + str2); // try now str1 == str3
     }
 }

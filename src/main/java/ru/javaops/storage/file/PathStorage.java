@@ -6,13 +6,15 @@ import ru.javaops.storage.AbstractStorage;
 import ru.javaops.util.executors.io.PathExecutor;
 import ru.javaops.util.serializers.ISerializer;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class PathStorage extends AbstractStorage<Path> {
 
@@ -64,7 +66,7 @@ public class PathStorage extends AbstractStorage<Path> {
     @Override
     protected List<Resume> doGetAll() {
         return executor.executeOnDirectory(directory, "Cannot get resumes",
-                pathStream -> pathStream.map(this::doGet).collect(Collectors.toList())
+                pathStream -> new ArrayList<>(pathStream.map(this::doGet).toList())
         );
     }
 

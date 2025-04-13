@@ -16,7 +16,7 @@ public abstract class AbstractArrayStorageTest extends AbstractStorageTest {
     }
 
     @Test
-    public void saveOverflow() throws Exception {
+    public void saveOverflow() {
         storage.clear();
         assertSize(0);
         for (int i = 0; i < AbstractArrayStorage.STORAGE_LIMIT ; i++) {
