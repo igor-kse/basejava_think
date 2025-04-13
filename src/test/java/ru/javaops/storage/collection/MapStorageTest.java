@@ -1,4 +1,6 @@
-package ru.javaops.storage;
+package ru.javaops.storage.collection;
+
+import ru.javaops.storage.AbstractStorageTest;
 
 public class MapStorageTest extends AbstractStorageTest {
 

@@ -1,9 +1,10 @@
-package ru.javaops.storage;
+package ru.javaops.storage.array;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.javaops.exceptions.StorageException;
 import ru.javaops.model.Resume;
+import ru.javaops.storage.AbstractStorage;
 
 import java.util.Arrays;
 import java.util.List;

@@ -1,9 +1,11 @@
-package ru.javaops.storage;
+package ru.javaops.storage.array;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.javaops.exceptions.StorageException;
 import ru.javaops.model.Resume;
+import ru.javaops.storage.AbstractStorageTest;
+import ru.javaops.storage.Storage;
 
 import java.util.UUID;
 

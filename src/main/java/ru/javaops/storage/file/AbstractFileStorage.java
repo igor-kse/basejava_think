@@ -1,16 +1,16 @@
-package ru.javaops.storage;
+package ru.javaops.storage.file;
 
 import ru.javaops.exceptions.StorageException;
 import ru.javaops.model.Resume;
-import ru.javaops.storage.executors.FileExecutor;
+import ru.javaops.storage.file.executors.FileExecutor;
+import ru.javaops.storage.AbstractStorage;
 
 import java.io.*;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public abstract class AbstractFileStorage extends AbstractStorage<File>{
+public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     private final File directory;
     private final FileExecutor executor;

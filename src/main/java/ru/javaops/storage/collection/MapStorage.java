@@ -1,6 +1,7 @@
-package ru.javaops.storage;
+package ru.javaops.storage.collection;
 
 import ru.javaops.model.Resume;
+import ru.javaops.storage.AbstractStorage;
 
 import java.util.ArrayList;
 import java.util.HashMap;

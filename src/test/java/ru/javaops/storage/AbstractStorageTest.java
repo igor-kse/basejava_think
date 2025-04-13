@@ -7,7 +7,6 @@ import org.junit.jupiter.api.function.Executable;
 import ru.javaops.exceptions.ExistingResumeStorageException;
 import ru.javaops.exceptions.NotExistingResumeStorageException;
 import ru.javaops.model.Resume;
-import ru.javaops.model.ResumeTestData;
 
 import java.util.Collections;
 import java.util.List;
@@ -112,8 +111,13 @@ public abstract class AbstractStorageTest {
 
         storage.update(updated);
 
-        Assertions.assertSame(updated, storage.get(uuid));
+        doAssertUpdate(updated, uuid);
         assertSize(size);
+    }
+
+    // To override in file storages
+    protected void doAssertUpdate(Resume updated, String uuid) {
+        Assertions.assertSame(updated, storage.get(uuid));
     }
 
     protected void assertNotExist(Executable executable) {

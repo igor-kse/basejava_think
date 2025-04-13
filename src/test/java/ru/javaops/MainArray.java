@@ -1,7 +1,7 @@
 package ru.javaops;
 
 import ru.javaops.model.Resume;
-import ru.javaops.storage.SortedArrayStorage;
+import ru.javaops.storage.array.SortedArrayStorage;
 import ru.javaops.storage.Storage;
 
 import java.io.BufferedReader;

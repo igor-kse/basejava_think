@@ -1,4 +1,4 @@
-package ru.javaops.storage;
+package ru.javaops.storage.array;
 
 import org.junit.jupiter.api.Test;
 

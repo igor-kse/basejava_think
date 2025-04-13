@@ -1,4 +1,4 @@
-package ru.javaops.storage;
+package ru.javaops.storage.array;
 
 public class ArrayStorageTest extends AbstractArrayStorageTest {
 
