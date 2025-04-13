@@ -1,5 +1,10 @@
 package ru.javaops.model;
 
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import ru.javaops.util.LocalDateXmlAdapter;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -7,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Company implements Serializable {
 
     @Serial
@@ -21,6 +27,9 @@ public class Company implements Serializable {
     public Company(String name, String website) {
         this.name = name;
         this.website = website;
+    }
+
+    public Company() {
     }
 
     public String getName() {
@@ -71,13 +80,16 @@ public class Company implements Serializable {
                 '}';
     }
 
+    @XmlAccessorType(XmlAccessType.FIELD)
     public static class Period implements Serializable {
 
         @Serial
         private static final long serialVersionUID = 1L;
 
+        @XmlJavaTypeAdapter(LocalDateXmlAdapter.class)
         private LocalDate startDate;
 
+        @XmlJavaTypeAdapter(LocalDateXmlAdapter.class)
         private LocalDate endDate;
 
         private String title;
@@ -89,6 +101,9 @@ public class Company implements Serializable {
             this.endDate = endDate;
             this.title = title;
             this.description = description;
+        }
+
+        public Period() {
         }
 
         public LocalDate getStartDate() {

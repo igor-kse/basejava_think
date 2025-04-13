@@ -1,9 +1,15 @@
 package ru.javaops.model;
 
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Resume implements Serializable {
 
     @Serial
@@ -25,6 +31,9 @@ public class Resume implements Serializable {
     public Resume(String uuid, String fullName) {
         this.uuid = uuid;
         this.fullName = fullName;
+    }
+
+    public Resume() {
     }
 
     public Resume(String uuid, String fullName, Map<ContactType, String> contacts,

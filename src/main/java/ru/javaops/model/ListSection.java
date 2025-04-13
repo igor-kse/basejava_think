@@ -15,6 +15,9 @@ public class ListSection extends AbstractSection {
         this.list = list;
     }
 
+    public ListSection() {
+    }
+
     public List<String> getList() {
         return list;
     }

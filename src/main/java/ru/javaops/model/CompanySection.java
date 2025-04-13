@@ -15,6 +15,9 @@ public class CompanySection extends AbstractSection {
         this.companies = companies;
     }
 
+    public CompanySection() {
+    }
+
     public List<Company> getCompanies() {
         return companies;
     }
