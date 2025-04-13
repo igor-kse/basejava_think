@@ -84,6 +84,7 @@ public class FileStorage extends AbstractStorage<File> {
             }
             try (var os = new BufferedOutputStream(new FileOutputStream(searchKey))) {
                 serializer.doWrite(resume, os);
+                os.flush();
             }
         });
     }
@@ -93,6 +94,7 @@ public class FileStorage extends AbstractStorage<File> {
         executor.execute("Cannot update file ", () -> {
             try (var os = new BufferedOutputStream(new FileOutputStream(searchKey))){
                 serializer.doWrite(resume, os);
+                os.flush();
             }
         });
     }

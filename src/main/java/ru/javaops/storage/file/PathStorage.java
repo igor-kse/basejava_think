@@ -86,7 +86,9 @@ public class PathStorage extends AbstractStorage<Path> {
     protected void doSave(Resume resume, Path searchKey) {
         executor.execute("Cannot save resume", () -> {
             try(var os = Files.newOutputStream(searchKey, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)) {
-                serializer.doWrite(resume, new BufferedOutputStream(os));
+                var bos = new BufferedOutputStream(os);
+                serializer.doWrite(resume, bos);
+                bos.flush();
             }
         });
     }
@@ -95,7 +97,9 @@ public class PathStorage extends AbstractStorage<Path> {
     protected void doUpdate(Resume resume, Path searchKey) {
         executor.execute("Cannot write file with updated resume", () -> {
             try(var os = Files.newOutputStream(searchKey, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)) {
-                serializer.doWrite(resume, new BufferedOutputStream(os));
+                var bos = new BufferedOutputStream(os);
+                serializer.doWrite(resume, bos);
+                bos.flush();
             }
         });
     }
