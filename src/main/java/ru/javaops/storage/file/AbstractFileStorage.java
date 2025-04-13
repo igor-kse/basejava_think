@@ -64,9 +64,11 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     protected void doDelete(File searchKey) {
-        if (!searchKey.delete()) {
-            throw new StorageException("Cannot delete file " + searchKey.getName());
-        }
+        executor.execute("Cannot delete file", () -> {
+            if (!searchKey.delete()) {
+                throw new IOException("Delete failed for " + searchKey.getName());
+            }
+        });
     }
 
     @Override
@@ -90,8 +92,6 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     protected File getSearchKey(String uuid) {
         return new File(directory.getAbsolutePath(), uuid);
     }
-
-
 
     protected abstract Resume doRead(InputStream inputStream) throws IOException;
 

@@ -1,30 +1,12 @@
 package ru.javaops.storage.file.executors;
 
 import ru.javaops.exceptions.StorageException;
-import ru.javaops.model.Resume;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-public class FileExecutor {
-
-    public void execute(String errorMessage, IOAction action) {
-        try {
-            action.accept();
-        } catch (IOException e) {
-            throw new StorageException(errorMessage, e);
-        }
-    }
-
-    public Resume read(String errorMessage, IOSupplier<Resume> function) {
-        try {
-            return function.accept();
-        } catch (IOException e) {
-            throw new StorageException(errorMessage, e);
-        }
-    }
+public class FileExecutor extends AbstractIOExecutor {
 
     public List<File> listFiles(File directory) {
         if (!directory.isDirectory()) {
