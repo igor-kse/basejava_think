@@ -1,8 +1,13 @@
 package ru.javaops.model;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.*;
 
-public class Resume {
+public class Resume implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     private String uuid;
 

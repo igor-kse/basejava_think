@@ -1,11 +1,16 @@
 package ru.javaops.model;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Company {
+public class Company implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     private String name;
 
@@ -66,7 +71,10 @@ public class Company {
                 '}';
     }
 
-    public static class Period {
+    public static class Period implements Serializable {
+
+        @Serial
+        private static final long serialVersionUID = 1L;
 
         private LocalDate startDate;
 
