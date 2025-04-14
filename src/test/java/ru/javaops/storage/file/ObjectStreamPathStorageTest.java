@@ -5,6 +5,6 @@ import ru.javaops.util.serializers.ObjectStreamSerializer;
 public class ObjectStreamPathStorageTest extends AbstractFileStorageTest {
 
     public ObjectStreamPathStorageTest() {
-        super(new PathStorage(STORAGE_DIRECTORY, new ObjectStreamSerializer<>()));
+        super(new PathStorage(PATH_STORAGE_DIRECTORY, new ObjectStreamSerializer<>()));
     }
 }

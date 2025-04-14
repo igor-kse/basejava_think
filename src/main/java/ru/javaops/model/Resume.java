@@ -6,7 +6,10 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.*;
+import java.util.EnumMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.UUID;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)

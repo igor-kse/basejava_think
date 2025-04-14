@@ -27,10 +27,10 @@ public class ResumeTestData {
 
     protected static Map<SectionType, AbstractSection> createSections() {
         Map<SectionType, AbstractSection> sections = new EnumMap<>(SectionType.class);
-        sections.put(SectionType.PERSONAL, new TextSection("Personal"));
-        sections.put(SectionType.OBJECTIVE, new TextSection("Objective"));
-        sections.put(SectionType.ACHIEVEMENT, new ListSection(List.of("Achieve 1", "Achieve 2", "Achieve 3")));
-        sections.put(SectionType.QUALIFICATIONS, new ListSection(List.of("Q1", "Q2", "Q3")));
+        sections.put(SectionType.PERSONAL, new TextSection(SectionType.PERSONAL, "Personal"));
+        sections.put(SectionType.OBJECTIVE, new TextSection(SectionType.OBJECTIVE, "Objective"));
+        sections.put(SectionType.ACHIEVEMENT, new ListSection(SectionType.ACHIEVEMENT, List.of("Achieve 1", "Achieve 2", "Achieve 3")));
+        sections.put(SectionType.QUALIFICATIONS, new ListSection(SectionType.QUALIFICATIONS, List.of("Q1", "Q2", "Q3")));
         sections.put(SectionType.EDUCATION, createEducation());
         sections.put(SectionType.EXPERIENCE, createExperience());
         return sections;
@@ -41,7 +41,7 @@ public class ResumeTestData {
         Company companyB = createCompany("University Two", "website.two");
         Company companyC = createCompany("University Three", "website.three");
         var companies = List.of(companyA, companyB, companyC);
-        return new CompanySection(companies);
+        return new CompanySection(SectionType.EDUCATION, companies);
     }
 
     protected static CompanySection createExperience() {
@@ -49,7 +49,7 @@ public class ResumeTestData {
         Company companyB = createCompany("Company Two", "website.two");
         Company companyC = createCompany("Company Three", "website.three");
         var companies = List.of(companyA, companyB, companyC);
-        return new CompanySection(companies);
+        return new CompanySection(SectionType.EXPERIENCE, companies);
     }
 
     protected static Company createCompany(String name, String website) {

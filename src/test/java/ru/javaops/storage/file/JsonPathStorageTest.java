@@ -5,6 +5,6 @@ import ru.javaops.storage.file.serializers.ResumeJsonSerializer;
 public class JsonPathStorageTest extends AbstractFileStorageTest {
 
     public JsonPathStorageTest() {
-        super(new PathStorage(STORAGE_DIRECTORY, new ResumeJsonSerializer()));
+        super(new PathStorage(PATH_STORAGE_DIRECTORY, new ResumeJsonSerializer()));
     }
 }
