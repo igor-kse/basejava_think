@@ -11,7 +11,11 @@ public class ListSection extends AbstractSection {
 
     private List<String> list;
 
-    public ListSection(List<String> list) {
+    public ListSection(SectionType type, List<String> list) {
+        super(type);
+        if (type != SectionType.ACHIEVEMENT && type != SectionType.QUALIFICATIONS) {
+            throw new IllegalStateException(type + " is not a valid section type");
+        }
         this.list = list;
     }
 

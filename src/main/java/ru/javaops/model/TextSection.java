@@ -10,7 +10,11 @@ public class TextSection extends AbstractSection {
 
     private String text;
 
-    public TextSection(String text) {
+    public TextSection(SectionType type, String text) {
+        super(type);
+        if (type != SectionType.OBJECTIVE && type != SectionType.PERSONAL) {
+            throw new IllegalStateException(type + " is not a valid section type");
+        }
         this.text = text;
     }
 

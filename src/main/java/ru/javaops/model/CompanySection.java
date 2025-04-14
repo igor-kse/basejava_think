@@ -11,7 +11,12 @@ public class CompanySection extends AbstractSection {
 
     private List<Company> companies;
 
-    public CompanySection(List<Company> companies) {
+    public CompanySection(SectionType type, List<Company> companies) {
+        super(type);
+
+        if (type != SectionType.EXPERIENCE && type != SectionType.EDUCATION) {
+            throw new IllegalStateException(type + " is not a valid section type");
+        }
         this.companies = companies;
     }
 

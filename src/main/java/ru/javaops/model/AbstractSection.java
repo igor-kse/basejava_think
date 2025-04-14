@@ -6,6 +6,7 @@ import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
@@ -18,7 +19,22 @@ import java.io.Serializable;
 })
 @XmlAccessorType(XmlAccessType.FIELD)
 public abstract class AbstractSection implements Serializable {
+    private SectionType type;
+
+    protected AbstractSection(SectionType type) {
+        Objects.requireNonNull(type);
+        this.type = type;
+    }
+
     protected AbstractSection() {
+    }
+
+    public SectionType getType() {
+        return type;
+    }
+
+    public void setType(SectionType type) {
+        this.type = type;
     }
 
     public static class SectionTypes {
