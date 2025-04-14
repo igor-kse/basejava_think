@@ -1,6 +1,5 @@
 package ru.javaops.storage.file;
 
-import ru.javaops.exceptions.StorageException;
 import ru.javaops.model.Resume;
 import ru.javaops.storage.AbstractStorage;
 import ru.javaops.util.executors.io.PathExecutor;
@@ -8,7 +7,6 @@ import ru.javaops.util.serializers.ISerializer;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
@@ -26,21 +24,18 @@ public class PathStorage extends AbstractStorage<Path> {
         Objects.requireNonNull(directory);
         Objects.requireNonNull(serializer);
 
-        if (!Files.exists(directory)) {
-            try {
+        this.executor = new PathExecutor();
+        executor.execute("Cannot create storage directory: " + directory, () -> {
+            if (!Files.exists(directory)) {
                 Files.createDirectory(directory);
-            } catch (IOException e) {
-                throw new StorageException("Cannot create storage directory: " + directory, null, e);
             }
-        }
+        });
 
         if (!Files.isDirectory(directory) || !Files.isReadable(directory) || !Files.isWritable(directory)) {
             throw new IllegalArgumentException("Is not directory or not readable/writable " + directory);
         }
-
         this.directory = directory;
         this.serializer = serializer;
-        this.executor = new PathExecutor();
     }
 
     @Override
