@@ -1,8 +1,8 @@
-package ru.javaops.storage.array;
+package ru.javaops.storage.memory;
 
 import org.junit.jupiter.api.Test;
 
-class SortedArrayStorageTest extends AbstractArrayStorageTest {
+class SortedArrayStorageTest extends BaseArrayStorageTest {
 
     public SortedArrayStorageTest() {
         super(new SortedArrayStorage());

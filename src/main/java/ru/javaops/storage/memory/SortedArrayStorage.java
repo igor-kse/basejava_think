@@ -1,11 +1,11 @@
-package ru.javaops.storage.array;
+package ru.javaops.storage.memory;
 
 import ru.javaops.model.Resume;
 
 import java.util.Arrays;
 import java.util.Comparator;
 
-public class SortedArrayStorage extends AbstractArrayStorage {
+public class SortedArrayStorage extends BaseArrayStorage {
 
     @Override
     protected void squashPosition(int index) {

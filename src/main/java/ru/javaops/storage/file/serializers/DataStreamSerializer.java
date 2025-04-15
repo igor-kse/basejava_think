@@ -1,16 +1,16 @@
 package ru.javaops.storage.file.serializers;
 
 import ru.javaops.model.Resume;
-import ru.javaops.storage.file.serializers.datastream.ResumeDataStream;
+import ru.javaops.storage.file.serializers.datastream.IResumeDataStream;
 import ru.javaops.util.serializers.ISerializer;
 
 import java.io.*;
 
 public class DataStreamSerializer implements ISerializer<Resume> {
 
-    private final ResumeDataStream resumeDataStream;
+    private final IResumeDataStream resumeDataStream;
 
-    public DataStreamSerializer(ResumeDataStream resumeDataStream) {
+    public DataStreamSerializer(IResumeDataStream resumeDataStream) {
         this.resumeDataStream = resumeDataStream;
     }
 

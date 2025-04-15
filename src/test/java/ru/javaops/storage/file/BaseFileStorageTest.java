@@ -4,8 +4,8 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import ru.javaops.model.Resume;
-import ru.javaops.storage.AbstractStorageTest;
-import ru.javaops.storage.Storage;
+import ru.javaops.storage.BaseStorageTest;
+import ru.javaops.storage.IStorage;
 import ru.javaops.util.executors.io.PathExecutor;
 
 import java.io.File;
@@ -14,13 +14,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public abstract class AbstractFileStorageTest extends AbstractStorageTest {
+public abstract class BaseFileStorageTest extends BaseStorageTest {
     protected static final String USER_DIRECTORY_PATH = System.getProperty("user.dir");
     protected static final String STORAGE_DIRECTORY_PATH = "file_storage";
     protected static final Path PATH_STORAGE_DIRECTORY = Paths.get(USER_DIRECTORY_PATH, STORAGE_DIRECTORY_PATH);
     protected static final File FILE_STORAGE_DIRECTORY = new File(USER_DIRECTORY_PATH, STORAGE_DIRECTORY_PATH);
 
-    public AbstractFileStorageTest(Storage storage) {
+    public BaseFileStorageTest(IStorage storage) {
         super(storage);
     }
 
@@ -32,7 +32,7 @@ public abstract class AbstractFileStorageTest extends AbstractStorageTest {
         }
         new PathExecutor().executeOnDirectory(PATH_STORAGE_DIRECTORY, "I/O error while setting up",
                 stream -> {
-                    stream.forEach(AbstractFileStorageTest::deleteByPath);
+                    stream.forEach(BaseFileStorageTest::deleteByPath);
                     Files.delete(PATH_STORAGE_DIRECTORY);
                     return true;
                 });

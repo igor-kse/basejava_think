@@ -13,9 +13,9 @@ import java.util.List;
 
 import static ru.javaops.model.ResumeTestData.createFilledResume;
 
-public abstract class AbstractStorageTest {
+public abstract class BaseStorageTest {
 
-    protected final Storage storage;
+    protected final IStorage storage;
 
     protected static final String UUID_1 = "uuid1";
     protected static final String UUID_2 = "uuid2";
@@ -30,7 +30,7 @@ public abstract class AbstractStorageTest {
     protected static final int INITIAL_SIZE = 3;
 
 
-    public AbstractStorageTest(Storage storage) {
+    public BaseStorageTest(IStorage storage) {
         this.storage = storage;
     }
 

@@ -1,14 +1,14 @@
-package ru.javaops.storage.collection;
+package ru.javaops.storage.memory;
 
 import ru.javaops.model.Resume;
-import ru.javaops.storage.AbstractStorage;
+import ru.javaops.storage.BaseStorage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MapStorage extends AbstractStorage<String> {
+public class MapStorage extends BaseStorage<String> {
 
     private final Map<String, Resume> storage = new HashMap<>();
 

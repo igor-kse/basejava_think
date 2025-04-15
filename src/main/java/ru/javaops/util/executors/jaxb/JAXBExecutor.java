@@ -3,7 +3,7 @@ package ru.javaops.util.executors.jaxb;
 import jakarta.xml.bind.JAXBException;
 
 public class JAXBExecutor {
-    public <R> R supply(JAXBSupplier<R> supplier) {
+    public <R> R supply(IJAXBSupplier<R> supplier) {
         try {
             return supplier.supply();
         } catch (JAXBException e) {
@@ -11,7 +11,7 @@ public class JAXBExecutor {
         }
     }
 
-    public void apply(JAXBAction executor) {
+    public void apply(IJAXBAction executor) {
         try {
             executor.apply();
         } catch (JAXBException e) {

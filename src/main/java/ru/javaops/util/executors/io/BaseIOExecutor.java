@@ -5,8 +5,8 @@ import ru.javaops.model.Resume;
 
 import java.io.IOException;
 
-public abstract class AbstractIOExecutor {
-    public Resume read(String errorMessage, IOSupplier<Resume> supplier) {
+public abstract class BaseIOExecutor {
+    public Resume read(String errorMessage, ISupplier<Resume> supplier) {
         try {
             return supplier.get();
         } catch (IOException e) {
@@ -14,7 +14,7 @@ public abstract class AbstractIOExecutor {
         }
     }
 
-    public void execute(String errorMessage, IOAction action) {
+    public void execute(String errorMessage, IAction action) {
         try {
             action.accept();
         } catch (IOException e) {

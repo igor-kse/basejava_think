@@ -6,7 +6,7 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
-public class FileExecutor extends AbstractIOExecutor {
+public class FileExecutor extends BaseIOExecutor {
 
     public List<File> listFiles(File directory) {
         if (!directory.isDirectory()) {

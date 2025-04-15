@@ -1,5 +1,7 @@
 package ru.javaops.storage.file.serializers.datastream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.javaops.exceptions.CorruptedDataFormatException;
 import ru.javaops.exceptions.UnsupportedFormatVersionException;
 import ru.javaops.model.*;
@@ -13,13 +15,15 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class ResumeDataStreamV1 implements ResumeDataStream {
+public class ResumeDataStreamV1 implements IResumeDataStream {
 
     private static final String RESUME_HEADER = Resume.class.getSimpleName();
     private static final String RESUME_CONTACTS_COUNT_HEADER = "contacts";
     private static final String RESUME_SECTIONS_COUNT_HEADER = "sections";
 
     private static final int CURRENT_VERSION = 1;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ResumeDataStreamV1.class.getName());
 
     @Override
     public void write(Resume resume, DataOutputStream dos) throws IOException {
@@ -78,7 +82,7 @@ public class ResumeDataStreamV1 implements ResumeDataStream {
     public void writeSections(Resume resume, DataOutputStream dos) throws IOException {
         dos.writeUTF(RESUME_SECTIONS_COUNT_HEADER);
         dos.writeInt(resume.getSections().size());
-        for (Map.Entry<SectionType, AbstractSection> entry : resume.getSections().entrySet()) {
+        for (Map.Entry<SectionType, BaseSection> entry : resume.getSections().entrySet()) {
             var type = entry.getKey();
             var section = entry.getValue();
 
@@ -89,11 +93,12 @@ public class ResumeDataStreamV1 implements ResumeDataStream {
                 case OBJECTIVE, PERSONAL -> writeTextSection(section, dos);
                 case QUALIFICATIONS, ACHIEVEMENT -> writeListSection(section, dos);
                 case EXPERIENCE, EDUCATION -> writeCompanySection(section, dos);
+                default -> LOGGER.warn("Unknown section type: {}", type);
             }
         }
     }
 
-    public Map<SectionType, AbstractSection> readSections(DataInputStream dis) throws IOException {
+    public Map<SectionType, BaseSection> readSections(DataInputStream dis) throws IOException {
         var header = dis.readUTF();
         int sectionCount = dis.readInt();
 
@@ -102,7 +107,7 @@ public class ResumeDataStreamV1 implements ResumeDataStream {
             throw new CorruptedDataFormatException(errorMessage);
         }
 
-        var sections = new EnumMap<SectionType, AbstractSection>(SectionType.class);
+        var sections = new EnumMap<SectionType, BaseSection>(SectionType.class);
         for (int i = 0; i < sectionCount; i++) {
             var typeName = dis.readUTF();
             var type = SectionType.valueOf(typeName);
@@ -116,7 +121,7 @@ public class ResumeDataStreamV1 implements ResumeDataStream {
         return sections;
     }
 
-    private void writeTextSection(AbstractSection section, DataOutputStream dos) throws IOException {
+    private void writeTextSection(BaseSection section, DataOutputStream dos) throws IOException {
         if (section instanceof TextSection textSection) {
             dos.writeUTF(textSection.getText());
             return;
@@ -130,7 +135,7 @@ public class ResumeDataStreamV1 implements ResumeDataStream {
         return new TextSection(type, text);
     }
 
-    private void writeListSection(AbstractSection section, DataOutputStream dos) throws IOException {
+    private void writeListSection(BaseSection section, DataOutputStream dos) throws IOException {
         if (section instanceof ListSection listSection) {
             dos.writeInt(listSection.getList().size());
             for (String string : listSection.getList()) {
@@ -157,7 +162,7 @@ public class ResumeDataStreamV1 implements ResumeDataStream {
         return new ListSection(type, list);
     }
 
-    private void writeCompanySection(AbstractSection section, DataOutputStream dos) throws IOException {
+    private void writeCompanySection(BaseSection section, DataOutputStream dos) throws IOException {
         if (section instanceof CompanySection companySection) {
             dos.writeInt(companySection.getCompanies().size());
             for (Company company : companySection.getCompanies()) {

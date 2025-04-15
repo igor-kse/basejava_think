@@ -3,7 +3,7 @@ package ru.javaops.model;
 import java.io.Serial;
 import java.util.Objects;
 
-public class TextSection extends AbstractSection {
+public class TextSection extends BaseSection {
 
     @Serial
     private static final long serialVersionUID = 1L;

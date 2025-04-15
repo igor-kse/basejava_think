@@ -13,20 +13,20 @@ import java.util.Objects;
         property = "type"
 )
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = TextSection.class, name = AbstractSection.SectionTypes.TEXT_SECTION),
-        @JsonSubTypes.Type(value = ListSection.class, name = AbstractSection.SectionTypes.LIST_SECTION),
-        @JsonSubTypes.Type(value = CompanySection.class, name = AbstractSection.SectionTypes.COMPANY_SECTION),
+        @JsonSubTypes.Type(value = TextSection.class, name = BaseSection.SectionTypes.TEXT_SECTION),
+        @JsonSubTypes.Type(value = ListSection.class, name = BaseSection.SectionTypes.LIST_SECTION),
+        @JsonSubTypes.Type(value = CompanySection.class, name = BaseSection.SectionTypes.COMPANY_SECTION),
 })
 @XmlAccessorType(XmlAccessType.FIELD)
-public abstract class AbstractSection implements Serializable {
+public abstract class BaseSection implements Serializable {
     private SectionType type;
 
-    protected AbstractSection(SectionType type) {
+    protected BaseSection(SectionType type) {
         Objects.requireNonNull(type);
         this.type = type;
     }
 
-    protected AbstractSection() {
+    protected BaseSection() {
     }
 
     public SectionType getType() {

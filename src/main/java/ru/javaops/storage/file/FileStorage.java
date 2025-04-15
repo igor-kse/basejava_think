@@ -2,7 +2,7 @@ package ru.javaops.storage.file;
 
 import ru.javaops.exceptions.StorageException;
 import ru.javaops.model.Resume;
-import ru.javaops.storage.AbstractStorage;
+import ru.javaops.storage.BaseStorage;
 import ru.javaops.util.executors.io.FileExecutor;
 import ru.javaops.util.serializers.ISerializer;
 
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class FileStorage extends AbstractStorage<File> {
+public class FileStorage extends BaseStorage<File> {
 
     private final File directory;
     private final FileExecutor executor;

@@ -1,20 +1,20 @@
-package ru.javaops.storage.array;
+package ru.javaops.storage.memory;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.javaops.exceptions.StorageException;
 import ru.javaops.model.Resume;
-import ru.javaops.storage.AbstractStorage;
+import ru.javaops.storage.BaseStorage;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
+public abstract class BaseArrayStorage extends BaseStorage<Integer> {
 
     protected static final int STORAGE_LIMIT = 10000;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractArrayStorage.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(BaseArrayStorage.class);
 
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;

@@ -1,8 +1,8 @@
-package ru.javaops.storage.array;
+package ru.javaops.storage.memory;
 
 import ru.javaops.model.Resume;
 
-public class ArrayStorage extends AbstractArrayStorage {
+public class ArrayStorage extends BaseArrayStorage {
 
     @Override
     protected Integer getSearchKey(String uuid) {

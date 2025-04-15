@@ -6,7 +6,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public interface ResumeDataStream {
+public interface IResumeDataStream {
 
     void write(Resume resume, DataOutputStream dos) throws IOException;
 

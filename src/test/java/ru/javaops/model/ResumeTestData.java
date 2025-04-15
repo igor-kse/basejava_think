@@ -25,8 +25,8 @@ public class ResumeTestData {
         return contacts;
     }
 
-    protected static Map<SectionType, AbstractSection> createSections() {
-        Map<SectionType, AbstractSection> sections = new EnumMap<>(SectionType.class);
+    protected static Map<SectionType, BaseSection> createSections() {
+        Map<SectionType, BaseSection> sections = new EnumMap<>(SectionType.class);
         sections.put(SectionType.PERSONAL, new TextSection(SectionType.PERSONAL, "Personal"));
         sections.put(SectionType.OBJECTIVE, new TextSection(SectionType.OBJECTIVE, "Objective"));
         sections.put(SectionType.ACHIEVEMENT, new ListSection(SectionType.ACHIEVEMENT, List.of("Achieve 1", "Achieve 2", "Achieve 3")));

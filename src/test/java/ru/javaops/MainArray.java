@@ -1,8 +1,8 @@
 package ru.javaops;
 
 import ru.javaops.model.Resume;
-import ru.javaops.storage.array.SortedArrayStorage;
-import ru.javaops.storage.Storage;
+import ru.javaops.storage.memory.SortedArrayStorage;
+import ru.javaops.storage.IStorage;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,7 +11,7 @@ import java.util.List;
 
 public class MainArray {
 
-    private static final Storage ARRAY_STORAGE = new SortedArrayStorage();
+    private static final IStorage ARRAY_STORAGE = new SortedArrayStorage();
 
     public static void main(String[] args) throws IOException {
 

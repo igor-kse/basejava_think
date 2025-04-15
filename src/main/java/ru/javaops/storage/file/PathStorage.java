@@ -1,7 +1,7 @@
 package ru.javaops.storage.file;
 
 import ru.javaops.model.Resume;
-import ru.javaops.storage.AbstractStorage;
+import ru.javaops.storage.BaseStorage;
 import ru.javaops.util.executors.io.PathExecutor;
 import ru.javaops.util.serializers.ISerializer;
 
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class PathStorage extends AbstractStorage<Path> {
+public class PathStorage extends BaseStorage<Path> {
 
     private final Path directory;
     private final PathExecutor executor;

@@ -1,7 +1,7 @@
 package ru.javaops;
 
 import ru.javaops.model.Resume;
-import ru.javaops.storage.array.ArrayStorage;
+import ru.javaops.storage.memory.ArrayStorage;
 
 public class MainTestArrayStorage {
 

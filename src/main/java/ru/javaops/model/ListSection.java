@@ -4,7 +4,7 @@ import java.io.Serial;
 import java.util.List;
 import java.util.Objects;
 
-public class ListSection extends AbstractSection {
+public class ListSection extends BaseSection {
 
     @Serial
     private static final long serialVersionUID = 1L;

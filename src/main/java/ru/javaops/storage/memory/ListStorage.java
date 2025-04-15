@@ -1,12 +1,12 @@
-package ru.javaops.storage.collection;
+package ru.javaops.storage.memory;
 
 import ru.javaops.model.Resume;
-import ru.javaops.storage.AbstractStorage;
+import ru.javaops.storage.BaseStorage;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListStorage extends AbstractStorage<Integer> {
+public class ListStorage extends BaseStorage<Integer> {
 
     private final List<Resume> storage = new ArrayList<>();
 

@@ -4,7 +4,7 @@ import ru.javaops.model.Resume;
 
 import java.util.List;
 
-public interface Storage {
+public interface IStorage {
     void clear();
 
     void update(Resume r);
